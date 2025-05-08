@@ -57,10 +57,10 @@ jobs:
 
       - name: Create Table via SnowSQL
         run: |
-          ~/snowflake/snowsql -a ${{ github.event.inputs.snowflake_account }} \
-            -u ${{ github.event.inputs.snowflake_user }} \
-            -p ${{ github.event.inputs.snowflake_password }} \
-            -q "CREATE TABLE IF NOT EXISTS ${{ github.event.inputs.target_database }}.${{ github.event.inputs.target_schema }}.${{ github.event.inputs.table_name }} (
+          ~/snowflake/snowsql -a ${{ secrets.SNOWFLAKE_ACCOUNT }} \
+            -u ${{ secrets.SNOWFLAKE_USER }} \
+            -p ${{ secrets.SNOWFLAKE_PASSWORD }} \
+            -q "CREATE TABLE IF NOT EXISTS ${{ github.event.inputs.database }}.${{ github.event.inputs.schema }}.${{ github.event.inputs.table_name }} (
                   id NUMBER,
                   name VARCHAR,
                   created_at TIMESTAMP_LTZ
