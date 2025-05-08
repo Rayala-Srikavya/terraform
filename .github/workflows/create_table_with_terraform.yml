@@ -49,12 +49,30 @@ jobs:
           echo "TF_VAR_target_database=${{ github.event.inputs.target_database }}" >> $GITHUB_ENV
           echo "TF_VAR_target_schema=${{ github.event.inputs.target_schema }}" >> $GITHUB_ENV
           echo "TF_VAR_table_name=${{ github.event.inputs.table_name }}" >> $GITHUB_ENV
-
-      - name: Terraform Init & Apply
-        run: |
-          terraform init
-          terraform apply -auto-approve
+          
+      - name: Terraform Init
+        run: terraform init
         working-directory: ./terraform
+        env:
+          TF_VAR_snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          TF_VAR_snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
+          TF_VAR_snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+
+      - name: Terraform Plan
+        run: terraform plan -input=false
+        working-directory: ./terraform
+        env:
+          TF_VAR_snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          TF_VAR_snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
+          TF_VAR_snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+      
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
+        working-directory: ./terraform
+        env:
+          TF_VAR_snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          TF_VAR_snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
+          TF_VAR_snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
       - name: Create Table via SnowSQL
         run: |
