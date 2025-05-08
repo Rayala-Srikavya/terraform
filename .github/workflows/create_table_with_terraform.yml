@@ -46,8 +46,8 @@ jobs:
 
       - name: Set user-defined variables
         run: |
-          echo "TF_VAR_target_database=${{ github.event.inputs.database }}" >> $GITHUB_ENV
-          echo "TF_VAR_target_schema=${{ github.event.inputs.schema }}" >> $GITHUB_ENV
+          echo "TF_VAR_database=${{ github.event.inputs.database }}" >> $GITHUB_ENV
+          echo "TF_VAR_schema=${{ github.event.inputs.schema }}" >> $GITHUB_ENV
           echo "TF_VAR_table_name=${{ github.event.inputs.table_name }}" >> $GITHUB_ENV
           
       - name: Terraform Init
