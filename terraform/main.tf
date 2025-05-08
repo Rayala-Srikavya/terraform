@@ -4,6 +4,9 @@ terraform {
       source  = "Snowflake-Labs/snowflake"
       version = ">= 1.0.0"
     }
+    snowsql = {
+      source  = "aidanmelen/snowsql"
+      version = ">= 0.1.0"
   }
 }
 
