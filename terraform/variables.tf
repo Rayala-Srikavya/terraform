@@ -1,9 +1,3 @@
-variable "snowflake_account" {}
-variable "snowflake_user" {}
-variable "snowflake_password" {
-  sensitive = true
-}
-
 variable "database" {
   description = "Name of the Snowflake database to create"
   type        = string
