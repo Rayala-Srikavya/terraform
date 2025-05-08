@@ -1,4 +1,4 @@
-name: Create Table with Terraform + SnowSQL
+name: create_table_with_terraform
 
 env:
   TF_VAR_snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
