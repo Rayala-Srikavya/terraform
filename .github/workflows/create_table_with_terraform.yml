@@ -53,21 +53,13 @@ jobs:
       - name: Terraform Init
         run: terraform init
         working-directory: ./terraform
-        env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-
-      - name: Debug Snowflake Env Vars
-        run: |
-          echo "SNOWFLAKE_ACCOUNT is set to: $SNOWFLAKE_ACCOUNT"
-          echo "SNOWFLAKE_USER is set to: $SNOWFLAKE_USER"
-        env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
 
       - name: Terraform Plan
-        run: terraform plan -input=false
+        run: |
+          export SNOWFLAKE_ACCOUNT="${SNOWFLAKE_ACCOUNT}"
+          export SNOWFLAKE_USER="${SNOWFLAKE_USER}"
+          export SNOWFLAKE_PASSWORD="${SNOWFLAKE_PASSWORD}"
+          terraform plan -input=false
         working-directory: ./terraform
         env:
           export SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
@@ -75,7 +67,11 @@ jobs:
           export SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
       
       - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
+        run: |
+          export SNOWFLAKE_ACCOUNT="${SNOWFLAKE_ACCOUNT}"
+          export SNOWFLAKE_USER="${SNOWFLAKE_USER}"
+          export SNOWFLAKE_PASSWORD="${SNOWFLAKE_PASSWORD}"       
+          terraform apply -auto-approve -input=false
         working-directory: ./terraform
         env:
           export SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
