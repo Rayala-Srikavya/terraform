@@ -1,0 +1,67 @@
+name: Create Table with Terraform + SnowSQL
+
+on:
+  workflow_dispatch:
+    inputs:
+      snowflake_account:
+        required: true
+      snowflake_user:
+        required: true
+      snowflake_password:
+        required: true
+      snowflake_organization_name:
+        required: true
+      target_database:
+        required: true
+      target_schema:
+        required: true
+      table_name:
+        required: true
+
+jobs:
+  provision_and_create:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SnowSQL
+        run: |
+          sudo apt-get update && sudo apt-get install -y curl gzip
+          curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.3/linux_x86_64/snowsql-1.3.2-linux_x86_64.bash
+          SNOWSQL_DEST=~/snowflake SNOWSQL_LOGIN_SHELL=~/.profile bash snowsql-1.3.2-linux_x86_64.bash
+          
+      - name: Test SnowSQL Installation
+        run: ~/snowflake/snowsql -v
+       
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.11.4"
+
+      - name: Set Terraform environment variables
+        run: |
+          echo "TF_VAR_snowflake_account=${{ github.event.inputs.snowflake_account }}" >> $GITHUB_ENV
+          echo "TF_VAR_snowflake_user=${{ github.event.inputs.snowflake_user }}" >> $GITHUB_ENV
+          echo "TF_VAR_snowflake_password=${{ github.event.inputs.snowflake_password }}" >> $GITHUB_ENV
+          echo "TF_VAR_snowflake_organization_name=${{ github.event.inputs.snowflake_organization_name }}" >> $GITHUB_ENV
+          echo "TF_VAR_target_database=${{ github.event.inputs.target_database }}" >> $GITHUB_ENV
+          echo "TF_VAR_target_schema=${{ github.event.inputs.target_schema }}" >> $GITHUB_ENV
+
+      - name: Terraform Init & Apply
+        run: |
+          terraform init
+          terraform apply -auto-approve
+        working-directory: ./terraform
+
+      - name: Create Table via SnowSQL
+        run: |
+          ~/snowflake/snowsql -a ${{ github.event.inputs.snowflake_account }} \
+            -u ${{ github.event.inputs.snowflake_user }} \
+            -p ${{ github.event.inputs.snowflake_password }} \
+            -q "CREATE TABLE IF NOT EXISTS ${{ github.event.inputs.target_database }}.${{ github.event.inputs.target_schema }}.${{ github.event.inputs.table_name }} (
+                  id NUMBER,
+                  name VARCHAR,
+                  created_at TIMESTAMP_LTZ
+                );"
