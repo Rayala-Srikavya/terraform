@@ -7,23 +7,22 @@ env:
 on:
   workflow_dispatch:
     inputs:
-      snowflake_account:
+      database:
+        description: 'Database name'
         required: true
-      snowflake_user:
+        type: string
+      schema:
+        description: 'Schema name'
         required: true
-      snowflake_password:
-        required: true
-      snowflake_organization_name:
-        required: true
-      target_database:
-        required: true
-      target_schema:
-        required: true
+        type: string
       table_name:
+        description: 'Table name'
         required: true
+        type: string
 
 jobs:
   provision_and_create:
+    name: Provision Resources and Create Table
     runs-on: ubuntu-latest
 
     steps:
@@ -44,14 +43,11 @@ jobs:
         with:
           terraform_version: "1.11.4"
 
-      - name: Set Terraform environment variables
+      - name: Set user-defined variables
         run: |
-          echo "TF_VAR_snowflake_account=${{ github.event.inputs.snowflake_account }}" >> $GITHUB_ENV
-          echo "TF_VAR_snowflake_user=${{ github.event.inputs.snowflake_user }}" >> $GITHUB_ENV
-          echo "TF_VAR_snowflake_password=${{ github.event.inputs.snowflake_password }}" >> $GITHUB_ENV
-          echo "TF_VAR_snowflake_organization_name=${{ github.event.inputs.snowflake_organization_name }}" >> $GITHUB_ENV
           echo "TF_VAR_target_database=${{ github.event.inputs.target_database }}" >> $GITHUB_ENV
           echo "TF_VAR_target_schema=${{ github.event.inputs.target_schema }}" >> $GITHUB_ENV
+          echo "TF_VAR_table_name=${{ github.event.inputs.table_name }}" >> $GITHUB_ENV
 
       - name: Terraform Init & Apply
         run: |
