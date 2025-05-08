@@ -9,15 +9,15 @@ terraform {
 
 provider "snowflake" {
   account  = var.snowflake_account
-  user              = var.snowflake_user
-  password          = var.snowflake_password
+  user     = var.snowflake_user
+  password = var.snowflake_password
 }
 
 resource "snowflake_database" "user_db" {
-  name = var.target_database
+  name = var.database
 }
 
 resource "snowflake_schema" "user_schema" {
-  name     = var.target_schema
+  name     = var.schema
   database = snowflake_database.user_db.name
 }
