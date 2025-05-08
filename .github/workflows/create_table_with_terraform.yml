@@ -1,5 +1,9 @@
 name: Create Table with Terraform + SnowSQL
 
+env:
+  TF_VAR_snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
+  TF_VAR_snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+
 on:
   workflow_dispatch:
     inputs:
