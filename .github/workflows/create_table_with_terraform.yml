@@ -1,9 +1,9 @@
 name: create_table_with_terraform
 
 env:
-  TF_VAR_snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-  TF_VAR_snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
-  TF_VAR_snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+  snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+  snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
+  snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
 on:
   workflow_dispatch:
