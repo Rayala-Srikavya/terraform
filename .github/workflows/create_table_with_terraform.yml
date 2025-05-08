@@ -54,25 +54,25 @@ jobs:
         run: terraform init
         working-directory: ./terraform
         env:
-          TF_VAR_snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          TF_VAR_snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
-          TF_VAR_snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
+          snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
       - name: Terraform Plan
         run: terraform plan -input=false
         working-directory: ./terraform
         env:
-          TF_VAR_snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          TF_VAR_snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
-          TF_VAR_snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
+          snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
       
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
         working-directory: ./terraform
         env:
-          TF_VAR_snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          TF_VAR_snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
-          TF_VAR_snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          snowflake_account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          snowflake_user: ${{ secrets.SNOWFLAKE_USER }}
+          snowflake_password: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
       - name: Create Table via SnowSQL
         run: |
