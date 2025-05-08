@@ -58,6 +58,14 @@ jobs:
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
+      - name: Debug Snowflake Env Vars
+        run: |
+          echo "SNOWFLAKE_ACCOUNT is set to: $SNOWFLAKE_ACCOUNT"
+          echo "SNOWFLAKE_USER is set to: $SNOWFLAKE_USER"
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+
       - name: Terraform Plan
         run: terraform plan -input=false
         working-directory: ./terraform
