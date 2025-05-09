@@ -4,6 +4,7 @@ variable "SNOWFLAKE_ACCOUNT" {
 }
 
 variable "snowflake_organization_name" {}
+variable "host" {}
 
 variable "SNOWFLAKE_USER" {
   description = "Snowflake user name"
