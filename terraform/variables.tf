@@ -1,3 +1,18 @@
+variable "SNOWFLAKE_ACCOUNT" {
+  description = "Snowflake account name"
+  type        = string
+}
+
+variable "SNOWFLAKE_USER" {
+  description = "Snowflake user name"
+  type        = string
+}
+
+variable "SNOWFLAKE_PASSWORD" {
+  description = "Snowflake user password"
+  type        = string
+}
+
 variable "database" {
   description = "Name of the Snowflake database to create"
   type        = string
