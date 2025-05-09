@@ -3,6 +3,8 @@ variable "SNOWFLAKE_ACCOUNT" {
   type        = string
 }
 
+variable "snowflake_organization_name" {}
+
 variable "SNOWFLAKE_USER" {
   description = "Snowflake user name"
   type        = string
