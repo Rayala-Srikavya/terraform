@@ -1,16 +1,16 @@
 variable "SNOWFLAKE_ACCOUNT" {
-  description = "Snowflake account name"
-  type        = string
+  description = "Snowflake account name"
+  type        = string
 }
 
 variable "SNOWFLAKE_USER" {
-  description = "Snowflake user name"
-  type        = string
+  description = "Snowflake user name"
+  type        = string
 }
 
 variable "SNOWFLAKE_PASSWORD" {
-  description = "Snowflake user password"
-  type        = string
+  description = "Snowflake user password"
+  type        = string
 }
 
 variable "database" {
@@ -27,5 +27,6 @@ variable "table_name" {
   description = "Name of the table to create (used in SnowSQL step)"
   type        = string
 }
+
 
 
