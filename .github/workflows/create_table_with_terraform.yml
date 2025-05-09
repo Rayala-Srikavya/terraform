@@ -1,3 +1,4 @@
+
 name: create_table_with_terraform
 
 env:
@@ -87,6 +88,7 @@ jobs:
           ~/snowflake/snowsql -a RCNZCWF-UU37435.snowflakecomputing.com \
             -u ${{ secrets.SNOWFLAKE_USER }} \
             -p ${{ secrets.SNOWFLAKE_PASSWORD }} \
+            -d \
             -q "CREATE TABLE IF NOT EXISTS ${{ github.event.inputs.database }}.${{ github.event.inputs.schema }}.${{ github.event.inputs.table_name }} (
                   id NUMBER,
                   name VARCHAR,
