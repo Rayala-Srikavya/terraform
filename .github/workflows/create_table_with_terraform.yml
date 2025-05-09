@@ -95,7 +95,7 @@ jobs:
             -u "${{ secrets.SNOWFLAKE_USER }}" \
             -P "${{ secrets.SNOWFLAKE_PASSWORD }}" \
             -d \
-            -q "CREATE TABLE IF NOT EXISTS ${{ github.event.inputs.database }}.${{ github.event.inputs.schema }}.${{ github.event.inputs.table_name }} (
+            -q "CREATE TABLE IF NOT EXISTS \"${{ github.event.inputs.database }}\".\"${{ github.event.inputs.schema }}\".\"${{ github.event.inputs.table_name }}\" (
                   id NUMBER,
                   name VARCHAR,
                   created_at TIMESTAMP_LTZ
