@@ -85,10 +85,10 @@ jobs:
       - name: Create Table via SnowSQL
         run: |
           echo "Running SnowSQL Command..."
+          export SNOWSQL_PWD=$SNOWFLAKE_PASSWORD
           ~/snowflake/snowsql \
             -a "$SNOWFLAKE_ACCOUNT" \
             -u "$SNOWFLAKE_USER" \
-            -p "$SNOWFLAKE_PASSWORD" \
             -q "CREATE TABLE IF NOT EXISTS \"${{ github.event.inputs.database }}\".\"${{ github.event.inputs.schema }}\".\"${{ github.event.inputs.table_name }}\" (
                   id NUMBER,
                   name VARCHAR,
