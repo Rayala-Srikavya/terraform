@@ -87,7 +87,7 @@ jobs:
           echo "Running SnowSQL Command..."
           ~/snowflake/snowsql -a RCNZCWF-UU37435 \
             -u "${{ secrets.SNOWFLAKE_USER }}" \
-            -p "${{ secrets.SNOWFLAKE_PASSWORD }}" \
+            -P "${{ secrets.SNOWFLAKE_PASSWORD }}" \
             -q "CREATE TABLE IF NOT EXISTS \"${{ github.event.inputs.database }}\".\"${{ github.event.inputs.schema }}\".\"${{ github.event.inputs.table_name }}\" (
                   id NUMBER,
                   name VARCHAR,
