@@ -12,9 +12,9 @@ terraform {
 }
 
 provider "snowflake" {
-  account  = var.SNOWFLAKE_ACCOUNT
-  username = var.SNOWFLAKE_USER
-  password = var.SNOWFLAKE_PASSWORD
+  account_name = var.SNOWFLAKE_ACCOUNT
+  user         = var.SNOWFLAKE_USER
+  password     = var.SNOWFLAKE_PASSWORD
 }
 
 resource "snowflake_database" "user_db" {
