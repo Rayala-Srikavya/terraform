@@ -13,6 +13,7 @@ provider "snowflake" {
   host              = var.host
   user              = var.SNOWFLAKE_USER
   password          = var.SNOWFLAKE_PASSWORD
+  preview_features_enabled = ["snowflake_table_resource"]
 }
 
 resource "snowflake_database" "user_db" {
