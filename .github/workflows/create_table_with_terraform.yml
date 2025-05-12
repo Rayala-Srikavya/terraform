@@ -30,6 +30,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Print Environment Variables
+        run: |
+          echo "SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          echo "SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}"
+          echo "SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}"
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -45,32 +55,22 @@ jobs:
         run: terraform init
         working-directory: ./terraform
         env:
-          TF_VAR_SNOWFLAKE_ACCOUNT: $SNOWFLAKE_ACCOUNT
-          TF_VAR_SNOWFLAKE_USER: $SNOWFLAKE_USER
-          TF_VAR_SNOWFLAKE_PASSWORD: $SNOWFLAKE_PASSWORD
-
-      - name: Print Environment Variables
-        run: |
-          echo "SNOWFLAKE_ACCOUNT: $SNOWFLAKE_ACCOUNT"
-          echo "SNOWFLAKE_USER: $SNOWFLAKE_USER"
-          echo "SNOWFLAKE_PASSWORD: $SNOWFLAKE_PASSWORD"
-        env:
-          SNOWFLAKE_ACCOUNT: $SNOWFLAKE_ACCOUNT
-          SNOWFLAKE_USER: $SNOWFLAKE_USER
-          SNOWFLAKE_PASSWORD: $SNOWFLAKE_PASSWORD
+          TF_VAR_SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          TF_VAR_SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          TF_VAR_SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
       - name: Terraform Plan
         run: terraform plan -input=false
         working-directory: ./terraform
         env:
-          TF_VAR_SNOWFLAKE_ACCOUNT: $SNOWFLAKE_ACCOUNT
-          TF_VAR_SNOWFLAKE_USER: $SNOWFLAKE_USER
-          TF_VAR_SNOWFLAKE_PASSWORD: $SNOWFLAKE_PASSWORD
+          TF_VAR_SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          TF_VAR_SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          TF_VAR_SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
       
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
         working-directory: ./terraform
         env:
-          TF_VAR_SNOWFLAKE_ACCOUNT: $SNOWFLAKE_ACCOUNT
-          TF_VAR_SNOWFLAKE_USER: $SNOWFLAKE_USER
-          TF_VAR_SNOWFLAKE_PASSWORD: $SNOWFLAKE_PASSWORD
+          TF_VAR_SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          TF_VAR_SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          TF_VAR_SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
