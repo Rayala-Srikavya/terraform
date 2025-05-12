@@ -3,8 +3,15 @@ variable "SNOWFLAKE_ACCOUNT" {
   type        = string
 }
 
-variable "snowflake_organization_name" {}
-variable "host" {}
+variable "snowflake_organization_name" {
+  description = "Snowflake organization name"
+  type        = string
+}
+
+variable "host" {
+  description = "Snowflake host"
+  type        = string
+}
 
 variable "SNOWFLAKE_USER" {
   description = "Snowflake user name"
@@ -27,9 +34,10 @@ variable "schema" {
 }
 
 variable "table_name" {
-  description = "Name of the table to create (used in SnowSQL step)"
+  description = "Name of the table to create"
   type        = string
 }
+
 
 
 
