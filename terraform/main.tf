@@ -4,10 +4,6 @@ terraform {
       source  = "Snowflake-Labs/snowflake"
       version = ">= 1.0.0"
     }
-    snowsql = {
-      source  = "aidanmelen/snowsql"
-      version = ">= 0.1.0"
-    }
   }
 }
 
@@ -26,4 +22,25 @@ resource "snowflake_database" "user_db" {
 resource "snowflake_schema" "user_schema" {
   name     = var.schema
   database = snowflake_database.user_db.name
+}
+
+resource "snowflake_table" "user_table" {
+  name     = var.table_name
+  database = snowflake_database.user_db.name
+  schema   = snowflake_schema.user_schema.name
+
+  column {
+    name = "id"
+    type = "NUMBER"
+  }
+
+  column {
+    name = "name"
+    type = "VARCHAR"
+  }
+
+  column {
+    name = "created_at"
+    type = "TIMESTAMP_LTZ"
+  }
 }
