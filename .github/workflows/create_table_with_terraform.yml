@@ -1,5 +1,10 @@
 name: create_table_with_terraform
 
+env:
+  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+  SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+  SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+
 on:
   workflow_dispatch:
     inputs:
@@ -22,9 +27,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TF_VAR_SNOWFLAKE_ACCOUNT: ${{ vars.SNOWFLAKE_ACCOUNT }}
-      TF_VAR_SNOWFLAKE_USER: ${{ vars.SNOWFLAKE_USER }}
-      TF_VAR_SNOWFLAKE_PASSWORD: ${{ vars.SNOWFLAKE_PASSWORD }}
+      TF_VAR_SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      TF_VAR_SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+      TF_VAR_SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
     steps:
       - name: Checkout
@@ -32,9 +37,9 @@ jobs:
 
       - name: Print Environment Variables
         run: |
-          echo "SNOWFLAKE_ACCOUNT: ${{ vars.SNOWFLAKE_ACCOUNT }}"
-          echo "SNOWFLAKE_USER: ${{ vars.SNOWFLAKE_USER }}"
-          echo "SNOWFLAKE_PASSWORD: ${{ vars.SNOWFLAKE_PASSWORD }}"
+          echo "SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          echo "SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}"
+          echo "SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -58,4 +63,3 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
         working-directory: ./terraform
-
