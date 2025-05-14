@@ -1,9 +1,9 @@
 name: create_table_with_terraform
 
 env:
-  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-  SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-  SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+  TF_VAR_SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+  TF_VAR_SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+  TF_VAR_SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
 on:
   workflow_dispatch:
@@ -35,11 +35,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Print Environment Variables
+      - name: Install SnowSQL
         run: |
-          echo "TF_VAR_SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}"
-          echo "TF_VAR_SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}"
-          echo "TF_VAR_SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}"
+          sudo apt-get update && sudo apt-get install -y curl gzip
+          curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.3/linux_x86_64/snowsql-1.3.2-linux_x86_64.bash
+          SNOWSQL_DEST=~/snowflake SNOWSQL_LOGIN_SHELL=~/.profile bash snowsql-1.3.2-linux_x86_64.bash
+          
+      - name: Test SnowSQL Installation
+        run: ~/snowflake/snowsql -v
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -63,3 +66,16 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
         working-directory: ./terraform
+
+      - name: Create Table via SnowSQL
+        run: |
+          echo "Running SnowSQL Command..."
+          export SNOWSQL_PWD=$SNOWFLAKE_PASSWORD
+          ~/snowflake/snowsql \
+            -a "$SNOWFLAKE_ACCOUNT" \
+            -u "$SNOWFLAKE_USER" \
+            -q "CREATE TABLE IF NOT EXISTS \"${{ github.event.inputs.database }}\".\"${{ github.event.inputs.schema }}\".\"${{ github.event.inputs.table_name }}\" (
+                  id NUMBER,
+                  name VARCHAR,
+                  created_at TIMESTAMP_LTZ
+                );"
